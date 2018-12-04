@@ -9,17 +9,20 @@
 # Parameters
 #
 # - address: The address of the munin node. A hostname, an IP address,
-#   or a ssh:// uri for munin-async node. Required.
+#   or a ssh:// uri for munin-async node. Default is the resource title.
 #
 # - mastername: The name of the munin master server which will collect
 #   the node definition.
+#
+# - virtual: If true, this is a [virtual node](https://munin.readthedocs.io/en/latest/reference/munin.conf.html#virtual-node).
 #
 # - config: An array of configuration lines to be added to the node
 #   definition. Default is an empty array.
 #
 define munin::master::node_definition (
-  $address,
+  $address=regsubst($name, '.*\;', ''),
   $mastername='',
+  $virtual=false,
   $config=[],
 )
 {
@@ -36,7 +39,12 @@ define munin::master::node_definition (
                     $config_root,
                     regsubst($name, '[^[:alnum:]\.]', '_', 'IG'))
 
+  $template = $virtual ? {
+    true  => 'munin/master/node-virtual.definition.conf.erb',
+    false => 'munin/master/node.definition.conf.erb',
+  }
+
   file { $filename:
-    content => template('munin/master/node.definition.conf.erb'),
+    content => template($template)
   }
 }
