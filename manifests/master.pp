@@ -106,7 +106,7 @@ class munin::master (
 
   # The munin package and configuration
   package { $munin_server_pkg:
-    ensure => latest,
+    ensure => installed,
   }
 
   File {
