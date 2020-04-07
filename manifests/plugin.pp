@@ -17,6 +17,7 @@ define munin::plugin (
     $target='',
     $config=undef,
     $config_label=undef,
+    $config_mode='0644',
 )
 {
 
@@ -84,6 +85,7 @@ define munin::plugin (
     file{ "${munin::node::config_root}/plugin-conf.d/${name}.conf":
       ensure  => $config_ensure,
       content => template('munin/plugin_conf.erb'),
+      mode   => $config_mode,
     }
 
 }
