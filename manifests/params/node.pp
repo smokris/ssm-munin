@@ -57,6 +57,14 @@ class munin::params::node {
           $plugin_share_dir = '/opt/local/share/munin/plugins'
           $file_group   = 'root'
         }
+        'Solaris': {
+          $config_root  = '/opt/local/etc/munin'
+          $log_dir      = '/var/log/munin'
+          $service_name = 'munin-node'
+          $package_name = 'munin-node'
+          $plugin_share_dir = '/opt/local/lib/munin/plugins'
+          $file_group   = 'root'
+        }
         default: {
           fail("Unsupported operatingsystem ${::operatingsystem} for osfamily ${::osfamily}")
         }

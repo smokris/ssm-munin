@@ -153,7 +153,6 @@ class munin::node (
     ensure  => $_service_ensure,
     enable  => true,
     require => Package[$package_name],
-    provider => 'systemd',
   }
 
   file { "${config_root}/munin-node.conf":
